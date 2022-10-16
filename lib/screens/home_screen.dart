@@ -1,9 +1,12 @@
 import 'package:cart_task/controller/base_controller.dart';
+import 'package:cart_task/controller/main_controller.dart';
 import 'package:cart_task/screens/favourite_screen.dart';
 import 'package:cart_task/screens/main_screen.dart';
+import 'package:cart_task/screens/news_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../helper/images.dart';
+import 'cart_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -13,7 +16,9 @@ class HomeScreen extends StatelessWidget {
     final controller = Get.put(BaseController());
     final List<Widget> screens = [
       const MainScreen(),
+      const NewsScreen(),
       const FavouriteScreen(),
+      const CartScreen(),
     ];
 
     return Scaffold(
@@ -24,10 +29,10 @@ class HomeScreen extends StatelessWidget {
           elevation: 1,
           child: Stack(
             children: [
-              const Text(
-                "120\$",
-                style: TextStyle(fontSize: 10),
-              ),
+              Obx(() => Text(
+                    "${MainController.to.totalPrice}\$",
+                    style: const TextStyle(fontSize: 10),
+                  )),
               Image.asset(Images.shoppingIcon),
             ],
           ),

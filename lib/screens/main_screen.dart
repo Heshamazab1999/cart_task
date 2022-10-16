@@ -9,8 +9,8 @@ import 'package:cart_task/controller/main_controller.dart';
 import 'package:cart_task/helper/dimensions.dart';
 import 'package:cart_task/helper/styles.dart';
 import 'package:cart_task/models/adress_model.dart';
+import 'package:cart_task/models/cart_model.dart';
 import 'package:cart_task/models/category_model.dart';
-import 'package:cart_task/models/deals_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -131,7 +131,7 @@ class MainScreen extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: Dimensions.height * 0.15,
+              height: Dimensions.height * 0.2,
               child: ListView.builder(
                   itemCount: controller.deals_model.length,
                   scrollDirection: Axis.horizontal,
@@ -139,7 +139,15 @@ class MainScreen extends StatelessWidget {
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (_, index) => Obx(() => DealsContainer(
                         addToCart: () {
-                          controller.addToCart(controller.deals_model[index]);
+                          controller.addToCart(CartProductModel(
+                            quantity: 1,
+                            name: controller.deals_model[index].name,
+                            price:
+                                int.parse(controller.deals_model[index].price!),
+                            image: controller.deals_model[index].color,
+                            productId:
+                                controller.deals_model[index].id.toString(),
+                          ));
                         },
                         icon: controller.favourite[
                                     controller.deals_model[index].id] ==
@@ -152,19 +160,18 @@ class MainScreen extends StatelessWidget {
                             ? Colors.grey
                             : Colors.red,
                         function: () {
-                          // controller.favouriteFunction(
-                          //   controller.deals_model[index].id!,
-                          //   DealsModel(
-                          //     name: controller.deals_model[index].name,
-                          //     color: controller.deals_model[index].color
-                          //         .toString(),
-                          //     quantity: 1,
-                          //     discount: controller.deals_model[index].discount,
-                          //     price: controller.deals_model[index].price,
-                          //     time: controller.deals_model[index].time,
-                          //   ),
-                          //   controller.deals_model[index].name!,
-                          // );
+                          controller.favouriteFunction(
+                            controller.deals_model[index].id!,
+                            CartProductModel(
+                              name: controller.deals_model[index].name,
+                              image: controller.deals_model[index].color
+                                  .toString(),
+                              quantity: 1,
+                              price: int.parse(
+                                  controller.deals_model[index].price!),
+                            ),
+                            controller.deals_model[index].name!,
+                          );
                         },
                         dealsModel: controller.deals_model[index],
                       ))),

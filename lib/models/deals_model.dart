@@ -1,10 +1,21 @@
-class DealsModel {
+import 'package:hive/hive.dart';
+
+
+@HiveType(typeId: 0)
+class DealsModel extends HiveObject {
+  @HiveField(0)
   int? id;
+  @HiveField(1)
   String? color;
+  @HiveField(2)
   String? name;
+  @HiveField(3)
   String? price;
-  int? quantity;
+  @HiveField(4)
+  late int quantity;
+  @HiveField(5)
   String? time;
+  @HiveField(6)
   String? discount;
 
   DealsModel(
@@ -12,11 +23,14 @@ class DealsModel {
       this.id,
       this.name,
       this.price,
-      this.quantity,
+      this.quantity = 1,
       this.time,
       this.discount});
 
   DealsModel.fromJSON(Map<dynamic, dynamic> json) {
+    if (json == null) {
+      return;
+    }
     color = json["color"];
     id = json["id"];
     name = json["name"];
@@ -34,7 +48,6 @@ class DealsModel {
     data['time'] = time;
     data['name'] = name;
     data['price'] = price;
-
     return data;
   }
 }
